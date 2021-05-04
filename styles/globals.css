@@ -14,3 +14,179 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.mr1 {
+  margin-right: 0.5em;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-auto {
+  flex: 1 1 100%;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.wrapper {
+  margin: 0.5vw 2.5vw;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  margin: 0 2em;
+}
+
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.movie {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5em 2em;
+  max-width: 240px;
+}
+
+.movie img {
+  cursor: pointer;
+}
+
+.movie h4 {
+  margin: 0.5em 0;
+}
+
+.movie p {
+  margin: 0;
+}
+
+.movie-details {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.movie-details .ratings {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.empty-image {
+  width: 240px;
+  height: 240px;
+  background: #808080;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-image span {
+  font-size: 1.5em;
+  color: white;
+}
+
+.back-btn {
+  margin: 1.5em;
+  font-size: 1em;
+}
+
+.sub {
+  display: flex;
+}
+
+.sub span {
+  padding: 0 0.2em;
+}
+
+.search-form {
+  display: flex;
+  width: 100%;
+}
+
+.search-form input {
+  outline: none;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  width: 100%;
+  display: block;
+  padding: 0.5em;
+}
+
+.search-form button {
+  background: none;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  padding: 0.5em;
+  cursor: pointer;
+  margin-left: 1em;
+  min-width: 120px;
+}
+
+.search-dropdown {
+  max-height: 320px;
+  border: 1px solid #808080;
+  overflow: scroll;
+}
+
+.search-dropdown > div {
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.search-dropdown > div:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.search-dropdown h4, .search-dropdown p {
+  margin: 0;
+}
+
+.modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-close__btn {
+  position: absolute;
+  top: 0.2em;
+  right: 0.8em;
+  cursor: pointer;
+  font-size: 2em;
+  background: none;
+  outline: none;
+  border: none;
+}
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 4px;
+  width: 640px;
+  padding: 2em;
+}
