@@ -25,7 +25,3 @@ Redux directory (store, actions) -> `./redux`
 
 Test Coverage -> `./coverage/Icov-report/index.html`
 Test files under every tests folder
-
-### Deployed on Vercel
-
-Please check deployed version on vercel

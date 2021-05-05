@@ -20,7 +20,7 @@ export default function MovieList() {
     display: false,
     link: ''
   });
-  const debouncedSearch = useDebounce(searchKeyword, 300);
+  const debouncedSearch = useDebounce(searchKeyword, 200);
   const onScreen = useOnScreen(ref, "0px");
 
   useEffect(async () => {
