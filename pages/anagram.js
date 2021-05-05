@@ -3,10 +3,9 @@ import styles from '../styles/Home.module.css'
 
 export default function Anagram() {
   const anagramStrings = ['kita', 'atik', 'tika', 'aku', 'kia', 'makan', 'kua'];
+  let result = {};
 
   const loopAnagram = arr => {
-    const result = {};
-
     arr.forEach(word => {
       const hashAnagrams = word.split("");
       const hashLength = hashAnagrams.length;
@@ -37,7 +36,7 @@ export default function Anagram() {
       })
     });
 
-    console.log(result)
+    return result
   }
 
   return (
@@ -50,7 +49,12 @@ export default function Anagram() {
 
       <div>
         <h3>Anagram result</h3>
-        {loopAnagram(anagramStrings)}
+        {Object.keys(loopAnagram(anagramStrings)).map((key,index) => (
+          <div key={index}>
+            <div>{key}: [{result[key].toString()}]</div>
+            <br />
+          </div>
+        ))}
       </div>
     </div>
   )

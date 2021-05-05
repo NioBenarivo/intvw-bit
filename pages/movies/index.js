@@ -1,24 +1,21 @@
 import { useEffect, useState, useRef } from 'react'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import axios from 'axios'
-import Image from 'next/image'
-import Loader from '../../components/Loader'
-import Modal from '../../components/Modal'
-import Movie from '../../components/Movie'
-import useDebounce from '../../hooks/useDebounce'
-import useOnScreen from '../../hooks/useOnScreen'
+import Modal from '@components/Modal'
+import Movie from '@components/Movie'
+import useDebounce from '@hooks/useDebounce'
+import useOnScreen from '@hooks/useOnScreen'
+import { useMovieList } from '../../redux/action'
 
 const domain = 'http://www.omdbapi.com?apikey=faf7e5bb';
 
 export default function MovieList() {
+  const { currentPage, incrementPage, movieList, addMovieList, setMovieList } = useMovieList();
   const router = useRouter()
   const ref = useRef();
   const [searchKeyword, setSearchKeywords] = useState('');
   const [searchDropdown, setSearchDropdown] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
   const [modalProps, setModalProps] = useState({
     display: false,
     link: ''
@@ -36,15 +33,17 @@ export default function MovieList() {
   }, [debouncedSearch])
 
   useEffect(async () => {
-    if (data.length > 0 && onScreen) {
-      setCurrentPage(currentPage + 1);
-      const list = await getSearchData(searchKeyword, currentPage)
-      setData([...data, ...list])
+    if (movieList.length > 0 && onScreen) {
+      incrementPage();
     }
   }, [onScreen])
 
+  useEffect(async () => {
+    const list = await getSearchData(searchKeyword, currentPage)
+    addMovieList(list)
+  }, [currentPage])
+
   const getSearchData = async (searchKey, page = 1) => {
-    setLoading(true)
     let searchResult = [];
     try {
       const res = await axios.get(`${domain}&s=${searchKey}&page=${page}`)
@@ -52,8 +51,6 @@ export default function MovieList() {
       searchResult = data.Search || [];
     } catch (err) {
       console.log(err)
-    } finally {
-      setLoading(false)
     }
 
     return searchResult
@@ -67,7 +64,7 @@ export default function MovieList() {
     e.preventDefault();
     const list = await getSearchData(searchKeyword);
     setSearchDropdown([]);
-    setData(list);
+    setMovieList(list)
   }
 
   const handleModal = link => {
@@ -78,7 +75,26 @@ export default function MovieList() {
   }
 
   const renderMovies = () => {
-    return data.length > 0 && data.map((movie, index) => <Movie data={movie} key={`${movie}-${index}`} openModal={handleModal} />);
+    return movieList.length > 0 && movieList.map((movie, index) => <Movie data={movie} key={`${movie}-${index}`} onClick={handleModal} />);
+  }
+
+  const renderDropdown = () => {
+    return searchDropdown.length > 0 ? 
+      <div className="search-dropdown">
+        {
+          searchDropdown.map((searchItem, index) => {
+            const imdbID = searchItem.imdbID || "";
+            return (
+              <Movie 
+                key={index}
+                data={searchItem} 
+                searchLayout 
+                onClick={() => router.push(`/movies/${imdbID}`)} 
+              />
+            )
+          })
+        }
+      </div> : ''
   }
 
   return (
@@ -91,48 +107,16 @@ export default function MovieList() {
       <div className="container">
         <div className="header">
           <h2>Search Movies</h2>
-          <form onSubmit={handleSubmit} className="search-form">
-            <input 
-              type="search"
-              value={searchKeyword} 
-              onChange={e => handleChange(e)} />
-            <button type="submit">Search</button>
-          </form>
-          {
-            searchDropdown.length > 0 ? 
-              <div className="search-dropdown">
-                {
-                  searchDropdown.map((searchItem, index) => {
-                    const poster = searchItem.Poster || "";
-                    const title = searchItem.Title || "";
-                    const year = searchItem.Year || "";
-                    const imdbID = searchItem.imdbID || "";
-                    return (
-                      <div className="flex" key={index} onClick={() => router.push(`/movies/${imdbID}`)}>
-                        {
-                          poster && poster !== 'N/A' ? 
-                            <Image 
-                              alt={title}
-                              src={poster}
-                              width={40}
-                              height={40}
-                              objectFit="contain"
-                            /> : 
-                            <div className="empty-image">
-                              <span>No Image</span>
-                            </div>
-                        }
-                        <div className="flex flex-column">
-                          <h4>{title}</h4>
-                          <p>{year}</p>
-                        </div>
-                      </div>
-                    )
-                  })
-                }
-              </div> : ''
-          }
-          
+          <div className="search-container">
+            <form onSubmit={handleSubmit} className="search-form">
+              <input 
+                type="search"
+                value={searchKeyword} 
+                onChange={e => handleChange(e)} />
+              <button type="submit">Search</button>
+            </form>
+            {renderDropdown()}
+          </div>
         </div>
         <div className="movie-list">
           {renderMovies()}

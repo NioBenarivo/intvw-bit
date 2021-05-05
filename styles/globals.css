@@ -6,17 +6,8 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
-}
-
-.mr1 {
-  margin-right: 0.5em;
 }
 
 .flex {
@@ -67,6 +58,24 @@ a {
   max-width: 240px;
 }
 
+.movie-dropdown {
+  display: flex;
+}
+
+.movie-dropdown > div:nth-child(2) {
+  margin-left: 0.5em;
+}
+
+.movie-dropdown .empty-image {
+  width: 40px;
+  height: 40px;
+}
+
+.movie-dropdown .empty-image span {
+  font-size: 0.5em;
+  text-align: center;
+}
+
 .movie img {
   cursor: pointer;
 }
@@ -84,9 +93,31 @@ a {
   justify-content: space-evenly;
 }
 
+.movie-details h1 {
+  margin: 0 0.5em 0 0;
+}
+
 .movie-details .ratings {
   font-size: 1.5em;
   font-weight: 700;
+}
+
+.movie-details .divider-block {
+  display: flex;
+}
+
+.movie-details .divider-block > p {
+  border-right: 0.5px solid #808080;
+  padding: 0 0.5em;
+}
+
+.movie-details .divider-block > p:first-child {
+  padding-left: 0;
+}
+
+.movie-details .divider-block > p:last-child {
+  padding-right: 0;
+  border-right: none;
 }
 
 .empty-image {
@@ -117,6 +148,10 @@ a {
   padding: 0 0.2em;
 }
 
+.search-container {
+  position: relative;
+}
+
 .search-form {
   display: flex;
   width: 100%;
@@ -142,8 +177,14 @@ a {
 }
 
 .search-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: white;
   max-height: 320px;
   border: 1px solid #808080;
+  border-top: none;
   overflow: scroll;
 }
 

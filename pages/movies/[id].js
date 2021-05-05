@@ -1,12 +1,12 @@
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
+import Image from 'next/image'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Loader from '../../components/Loader'
+import Loader from '@components/Loader'
 
-export default function Movie({}) {
+export default function Movie() {
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -85,15 +85,15 @@ export default function Movie({}) {
           </div>
           <div className="flex-auto">
             <div className="flex flex-wrap items-center">
-              <h1 className="mr1">{title} ({year})</h1>
+              <h1>{title} ({year})</h1>
               <p>ratings: <span className="ratings">{imdbRating}</span> / 10</p>
             </div>
             
-            <div className="sub">
-              {rated === "N/A" ? '' : <span>{rated}</span>}
-              <span>{runtime}</span>
-              <span>{genres}</span>
-              <span>{released}</span>
+            <div className="divider-block">
+              {rated === "N/A" ? '' : <p>{rated}</p>}
+              <p>{runtime}</p>
+              <p>{genres}</p>
+              <p>{released}</p>
             </div>
             
             <p>Director: {director}</p>
@@ -104,7 +104,7 @@ export default function Movie({}) {
             <p>Box Office: {boxOffice}</p>
             <p>Awards: {awards}</p>
 
-            <div className="flex">
+            <div className="divider-block">
               <p>Metascore: {metascore}</p>
               {
                 otherRatings.map((rating, index) => (
